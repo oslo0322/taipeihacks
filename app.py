@@ -1,11 +1,8 @@
 # -*- coding: utf-8 -*-
 
 import json
-import fb_image
 import fb_template as ft
 import fetch_by_v2_api as fbs
-import fb_text_message as ftm
-import requests
 from argparse import ArgumentParser
 
 from flask import Flask
@@ -17,9 +14,9 @@ app = Flask(__name__)
 
 @app.route("/api/v1/ok")
 def ok():
-    user_text = request.args.get('user_text')
-    print user_text
-    hotel = fbs.main("Taipei", "2017-06-02", "2017-06-03", stars=3, min_review_score=8, min_price=100)
+    ref = request.args.get('ref')
+    start, end, place = ref.split(",")
+    hotel = fbs.main(place, start, end, stars=3, min_review_score=8, min_price=100)
     ok = app.response_class(
         response=json.dumps(ft.block_message('bargain', hotel)),
         status=200,
