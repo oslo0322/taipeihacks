@@ -20,6 +20,14 @@ def get_data_from_auto_complete(text, lang="en"):
     return get_cities_id_list[0]
 
 
+def _app_map_info(pos):
+    url = ("https://maps.googleapis.com/maps/api/staticmap?"
+           "zoom=18&size=600x300&maptype=roadmap&markers=color:blue%7Clabel:S%7C"
+           + pos["latitude"] + "," + pos["longitude"] +
+           "&key=AIzaSyCJjB5rqKv0My4HePYIrgMOjtj24Ei1Uzo")
+    return url
+
+
 def main(place, checkin, checkout, people, stars=1, offset=0, min_review_score=1, min_price=50, max_price=2000):
     pos = get_data_from_auto_complete(place)
     payload = {
@@ -47,7 +55,8 @@ def main(place, checkin, checkout, people, stars=1, offset=0, min_review_score=1
     price = data["hotels"][0]["price"]
     hotel_name = data["hotels"][0]["hotel_name"]
     review_score = data["hotels"][0]["review_score"]
-    photos = [get_hotels_photo(hotel_id)[0], get_hotels_photo(hotel_id)[1], get_hotels_photo(hotel_id)[2]]
+    photos = [_app_map_info(pos), get_hotels_photo(hotel_id)[0],
+              get_hotels_photo(hotel_id)[1], get_hotels_photo(hotel_id)[2]]
     url = get_hotels_url_by_id(hotel_id)
     return {
         "title": hotel_name,
