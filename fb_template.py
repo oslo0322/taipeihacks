@@ -2,7 +2,7 @@
 from copy import deepcopy
 
 
-def block_message(button_block_name, hotel):
+def block_message(button_block_name, hotel, set_attrs=None):
     element_base = {
         "title": hotel['title'],
         "image_url": "",
@@ -34,4 +34,15 @@ def block_message(button_block_name, hotel):
             }
         ]
     }
+
+    if set_attrs:
+        set_result = {
+            "price": set_attrs["price"],
+            "stars": set_attrs["stars"],
+            "review_scores": set_attrs["review_scores"],
+        }
+        result.update({
+            "set_attributes": set_result
+        })
+
     return result

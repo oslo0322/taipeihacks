@@ -27,8 +27,8 @@ def main(place, checkin, checkout, stars=1, min_review_score=1, min_price=50, ma
         "longitude": pos["longitude"],
         "latitude": pos["latitude"],
         "room1": "A,A",
-        "min_price": min_price,
-        "max_price": max_price,
+        "min_price": int(min_price),
+        "max_price": int(max_price),
         "output": "hotel_details",
         "rows": 1,
         "stars": stars,
@@ -39,7 +39,7 @@ def main(place, checkin, checkout, stars=1, min_review_score=1, min_price=50, ma
     }
     uri = "/getHotelAvailabilityV2"
     data = get_booking_api_response(uri, payload)
-    if not data["hotels"]:
+    if not data:
         return None
     hotel_id = data["hotels"][0]["hotel_id"]
     price = data["hotels"][0]["price"]
