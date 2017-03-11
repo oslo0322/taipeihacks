@@ -1,18 +1,25 @@
 # -*- coding: utf-8 -*-
 
 import json
+import fb_image
+import fb_template as ft
+import fb_text_message as ftm
+import requests
 from argparse import ArgumentParser
 
 from flask import Flask
 from flask import json
+from flask import request
 
 app = Flask(__name__)
 
 
 @app.route("/api/v1/ok")
 def ok():
+    user_text = request.args.get('user_text')
+    print user_text
     ok = app.response_class(
-        response=json.dumps({'status': 'ok', 'text': "123", 'timestamp': 12345}),
+        response=json.dumps(ft.block_message('bargain',[1,2])),
         status=200,
         mimetype='application/json'
     )
