@@ -8,7 +8,6 @@ from fetching_booking_api import get_booking_api_response
 def get_data_from_auto_complete(text, lang="en"):
     payload = {'languagecode': lang, "text": text}
     uri = "/bookings.autocomplete"
-    print(payload)
     data = get_booking_api_response(uri, payload)
     get_cities_id_list = []
     for i in data:

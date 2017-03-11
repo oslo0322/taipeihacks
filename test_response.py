@@ -22,5 +22,6 @@ class TaipeiHacksTestCase(unittest.TestCase):
         result = self.app.get(url)
         self.assertEqual(200, result.status_code)
 
+
 if __name__ == '__main__':
     unittest.main()

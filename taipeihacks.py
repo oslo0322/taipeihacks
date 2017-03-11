@@ -2,81 +2,37 @@
 from __future__ import absolute_import, division, print_function, unicode_literals
 
 import json
-import random
-import urllib
-
-import fb_template as ft
-import fetch_by_v2_api as fbs
 from argparse import ArgumentParser
 
 from flask import Flask
 from flask import json
 from flask import request
 
+from libs import RequestHelper
+
 app = Flask(__name__)
-
-
-def get_args(request):
-    price = request.get('price')
-    stars = request.get('stars')
-    review_scores = request.get('review_scores')
-    return int(float(price)), int(float(stars)), int(float(review_scores))
 
 
 @app.route("/api/v1/choose")
 def choose():
-    ref = request.args.get('ref')
-    start, end, place = ref.split(",")
-    choose = request.args.get('user_text')
+    message = RequestHelper(request).get_message()
 
-    price, stars, review_scores = get_args(request.args)
-    offset = 0
-    if choose == "cheaper":
-        price = price*0.9
-        set_attrs = {
-           "price": int(price),
-           "stars": int(stars),
-           "review_scores": int(review_scores),
-        }
-    elif choose == "reset":
-        price = 100
-        stars = 3
-        review_scores = 7
-        set_attrs = {
-           "price": price,
-           "stars": stars,
-           "review_scores": review_scores,
-        }
-    else:
-        set_attrs = None
-        offset = random.randint(1, 100)
-
-    hotel = fbs.main(place, start, end, stars=stars, offset=offset,
-                     min_review_score=review_scores, min_price=price)
-    ok = app.response_class(
-        response=json.dumps(ft.block_message('bargain', hotel, set_attrs=set_attrs)),
+    return app.response_class(
+        response=json.dumps(message),
         status=200,
         mimetype='application/json'
     )
-    return ok
 
 
 @app.route("/api/v1/welcome")
 def welcome():
-    ref = request.args.get('ref')
-    start, end, place = urllib.unquote(ref).split(",")
+    message = RequestHelper(request).get_message()
 
-    price, stars, review_scores = get_args(request.args)
-
-    hotel = fbs.main(place, start, end, stars=stars,
-                     min_review_score=review_scores, min_price=price)
-
-    ok = app.response_class(
-        response=json.dumps(ft.block_message('bargain', hotel)),
+    return app.response_class(
+        response=json.dumps(message),
         status=200,
         mimetype='application/json'
     )
-    return ok
 
 
 if __name__ == "__main__":
