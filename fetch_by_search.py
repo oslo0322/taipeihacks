@@ -1,4 +1,7 @@
-from collections import OrderedDict
+# -*- coding: utf-8 -*-
+
+from __future__ import absolute_import, division, print_function, unicode_literals
+
 from datetime import datetime, timedelta
 
 from fetching_booking_api import get_booking_api_response
@@ -79,4 +82,4 @@ def main(place, arrival_date_str):
 
 
 if __name__ == '__main__':
-    print list(main("Tokyo", "2017-04-01"))
+    print(list(main("Tokyo", "2017-04-01")))

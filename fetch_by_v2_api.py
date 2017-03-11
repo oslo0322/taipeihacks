@@ -1,8 +1,9 @@
-import json
-from datetime import datetime, timedelta
+# -*- coding: utf-8 -*-
+from __future__ import absolute_import, division, print_function, unicode_literals
 
-from fetching_booking_api import get_booking_api_response
 from fetch_by_search import get_hotels_url_by_id, get_hotels_photo
+from fetching_booking_api import get_booking_api_response
+
 
 def get_data_from_auto_complete(text, lang="en"):
     payload = {'languagecode': lang, "text": text}
@@ -19,7 +20,7 @@ def get_data_from_auto_complete(text, lang="en"):
     return get_cities_id_list[0]
 
 
-def main(place, checkin, checkout, stars=1, min_review_score=1, min_price=50, max_price=2000):
+def main(place, checkin, checkout, stars=1, offset=0, min_review_score=1, min_price=50, max_price=2000):
     pos = get_data_from_auto_complete(place)
     payload = {
         "checkin": checkin,
@@ -35,7 +36,8 @@ def main(place, checkin, checkout, stars=1, min_review_score=1, min_price=50, ma
         "min_review_score": min_review_score,
         "radius": 50,
         "order_by": "price",
-        "currency_code": "TWD"
+        "currency_code": "TWD",
+        "offset": offset
     }
     uri = "/getHotelAvailabilityV2"
     data = get_booking_api_response(uri, payload)
@@ -43,9 +45,9 @@ def main(place, checkin, checkout, stars=1, min_review_score=1, min_price=50, ma
         return None
     hotel_id = data["hotels"][0]["hotel_id"]
     price = data["hotels"][0]["price"]
-    hotel_name =  data["hotels"][0]["hotel_name"]
+    hotel_name = data["hotels"][0]["hotel_name"]
     review_score = data["hotels"][0]["review_score"]
-    photos = [get_hotels_photo(hotel_id)[0],get_hotels_photo(hotel_id)[1],get_hotels_photo(hotel_id)[2]]
+    photos = [get_hotels_photo(hotel_id)[0], get_hotels_photo(hotel_id)[1], get_hotels_photo(hotel_id)[2]]
     url = get_hotels_url_by_id(hotel_id)
     return {
         "title": hotel_name,
@@ -56,6 +58,7 @@ def main(place, checkin, checkout, stars=1, min_review_score=1, min_price=50, ma
         "hotel_id": hotel_id
     }
 
+
 if __name__ == '__main__':
-    print main("Tokyo", "2017-06-02", "2017-06-10", min_price=10)
-    print main("Tokyo", "2017-06-02", "2017-06-10", min_price=40)
+    print(main("Tokyo", "2017-06-02", "2017-06-10", min_price=10))
+    print(main("Tokyo", "2017-06-02", "2017-06-10", min_price=40))

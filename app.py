@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
+from __future__ import absolute_import, division, print_function, unicode_literals
 
 import json
+import random
+
 import fb_template as ft
 import fetch_by_v2_api as fbs
 from argparse import ArgumentParser
@@ -26,7 +29,7 @@ def choose():
     choose = request.args.get('user_text')
 
     price, stars, review_scores = get_args(request.args)
-
+    offset = 0
     if choose == "cheaper":
         price = price*0.9
         set_attrs = {
@@ -35,15 +38,19 @@ def choose():
            "review_scores": int(review_scores),
         }
     elif choose == "reset":
+        price = 100
+        stars = 3
+        review_scores = 7
         set_attrs = {
-           "price": 100,
-           "stars": 3,
-           "review_scores": 7,
+           "price": price,
+           "stars": stars,
+           "review_scores": review_scores,
         }
     else:
         set_attrs = None
+        offset = random.randint(1, 100)
 
-    hotel = fbs.main(place, start, end, stars=stars,
+    hotel = fbs.main(place, start, end, stars=stars, offset=offset,
                      min_review_score=review_scores, min_price=price)
     ok = app.response_class(
         response=json.dumps(ft.block_message('bargain', hotel, set_attrs=set_attrs)),
