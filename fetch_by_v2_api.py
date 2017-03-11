@@ -43,13 +43,13 @@ def main(place, checkin, checkout, stars=1, min_review_score=1, min_price=50, ma
     price = data["hotels"][0]["price"]
     hotel_name =  data["hotels"][0]["hotel_name"]
     review_score = data["hotels"][0]["review_score"]
-    photos = get_hotels_photo(hotel_id)[0]
+    photos = [get_hotels_photo(hotel_id)[0],get_hotels_photo(hotel_id)[1],get_hotels_photo(hotel_id)[2]]
     url = get_hotels_url_by_id(hotel_id)
     return {
         "title": hotel_name,
         "subtitle": "review_score: {review_score}, price: {price}".format(review_score=review_score,
                                                                           price=price),
-        "image_url": photos,
+        "image_urls": photos,
         "hotel_url": url,
         "hotel_id": hotel_id
     }
