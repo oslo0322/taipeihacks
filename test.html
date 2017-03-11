@@ -1,0 +1,21 @@
+<html>
+<link rel="stylesheet" href="//ichef.github.io/iC-framework/dist/css/ic-framework.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+<script>
+    function redirect() {
+        var place = $("#place").val();
+        var start = $("#start").val();
+        var end = $("#end").val();
+        var url = "http://m.me/1864757223813592?ref="+start+","+end+","+place;
+        window.location.replace(url);
+    }
+</script>
+
+<input id="place" value="Tokyo">
+<input id="start" value="2017-06-01">
+<input id="end" value="2017-06-02">
+<input type="submit" onclick="redirect()">
+
+
+</html>
