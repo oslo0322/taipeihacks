@@ -1,8 +1,19 @@
 # -*- coding: utf-8 -*-
+from __future__ import absolute_import, division, print_function, unicode_literals
+
 from copy import deepcopy
 
 
-def block_message(button_block_name, hotel, set_attrs=None):
+def empty_message():
+    result = {
+        "messages": [
+            {"text": "Sorry, Hotels not found, please use other key words try again!!"},
+        ]
+    }
+    return result
+
+
+def block_message(hotel, set_attrs=None):
     element_base = {
         "title": hotel['title'],
         "image_url": "",
@@ -11,7 +22,7 @@ def block_message(button_block_name, hotel, set_attrs=None):
             {
                 "type": "web_url",
                 "url": hotel['hotel_url'][0],
-                "title": "飯店介紹"
+                "title": "Booking Now!"
             }
         ]
     }
@@ -36,11 +47,7 @@ def block_message(button_block_name, hotel, set_attrs=None):
     }
 
     if set_attrs:
-        set_result = {
-            "price": set_attrs["price"],
-            "stars": set_attrs["stars"],
-            "review_scores": set_attrs["review_scores"],
-        }
+        set_result = {key: value for key, value in set_attrs.items()}
         result.update({
             "set_attributes": set_result
         })
