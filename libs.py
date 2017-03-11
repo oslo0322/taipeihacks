@@ -7,6 +7,7 @@ import logging
 
 import fetch_by_v2_api as fbs
 import fb_template as ft
+from fetching_booking_api import get_nlp_result
 
 
 def get_args(request):
@@ -20,44 +21,81 @@ class RequestHelper(object):
 
     def __init__(self, request):
         self.ref = request.args.get('ref')
-        self.start, self.end, self.ref_place = self.ref.split(",")
+        self.start, self.end, self.ref_place, self.people = self.ref.split(",")
         self.price, self.stars, self.review_scores = get_args(request.args)
 
         self.place = request.args.get('place', None) or self.ref_place
 
-        user_text = request.args.get('user_text', None)
+        self.user_text = request.args.get('user_text', None)
         self.offset = 0
 
-        self.nlp_text = self.apply_nlp(user_text)
         self._setter()
 
-    def apply_nlp(self, user_text):
-        return user_text
+    def _modifier(self, name, limit, status):
+        attr = getattr(self, name)
+        min, max = limit[0], limit[1]
+        if status == "up":
+            setattr(self, name, attr+1)
+        else:
+            setattr(self, name, attr-1)
+
+        if attr > max:
+            setattr(self, name, max)
+
+        if attr < min:
+            setattr(self, name, min)
+
+    def apply_nlp(self, nlp_result):
+        _types, _status = nlp_result
+        types = {
+            "price": ["price"],
+            "star": ["stars"],
+            "review": ["review_scores"],
+            "all": ["price", "stars", "review_scores"]
+        }
+
+        for i in types[_types]:
+            if i == "price":
+                if _status == "up":
+                    if _types == "all":
+                        self.price *= random.uniform(2.1, 5.0)
+                    else:
+                        self.price *= random.uniform(1.1, 3.0)
+                else:
+                    self.price *= random.uniform(0.6, 0.99)
+
+            if i == "stars":
+                self._modifier(i, (1, 5), _status)
+
+            if i == "review_scores":
+                self._modifier(i, (1, 10), _status)
 
     def _setter(self):
-        if not self.nlp_text:
+        if not self.user_text:
             return
 
-        if self.nlp_text == "cheaper":
-            self.price = self.price * 0.9
+        nlp_result = get_nlp_result(self.user_text)
+        if nlp_result:
+            self.apply_nlp(nlp_result)
+            self.offset = random.randint(1, 10)
             return
 
-        if self.nlp_text == "reset":
+        if self.user_text == "reset":
             self.price = 100
             self.stars = 3
             self.review_scores = 7
             self.place = self.ref_place
             return
 
-        if len(self.nlp_text) > 3:
-            self.place = self.nlp_text
+        if len(self.user_text) > 3:
+            self.place = self.user_text
             self.offset = random.randint(1, 100)
             return
 
     @property
     def hotel_from_messengers(self):
         print(self.place)
-        return fbs.main(self.place, self.start, self.end,
+        return fbs.main(self.place, self.start, self.end, self.people,
                         stars=self.stars,
                         offset=self.offset,
                         min_review_score=self.review_scores,

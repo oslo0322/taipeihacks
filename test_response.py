@@ -12,13 +12,13 @@ class TaipeiHacksTestCase(unittest.TestCase):
 
     def test_welcome(self):
         url = ('/api/v1/welcome?fb_id=58c35c25e4b017a29d04b7fb&'
-               'ref=2017-06-01%2C2017-06-02%2CTokyo&price=100&review_scores=7&stars=3')
+               'ref=2017-06-01%2C2017-06-02%2CTokyo%2C2&price=100&review_scores=7&stars=3')
         result = self.app.get(url)
         self.assertEqual(200, result.status_code)
 
     def test_choose(self):
         url = ("/api/v1/choose?user_text=cheaper&fb_id=58c35c25e4b017a29d04b7fb&"
-               "ref=2017-06-01%2C2017-06-02%2CTokyoTower&price=100&review_scores=7&stars=3")
+               "ref=2017-06-01%2C2017-06-02%2CTokyoTower%2C2&price=100&review_scores=7&stars=3")
         result = self.app.get(url)
         self.assertEqual(200, result.status_code)
 

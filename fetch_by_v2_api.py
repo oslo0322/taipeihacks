@@ -20,14 +20,22 @@ def get_data_from_auto_complete(text, lang="en"):
     return get_cities_id_list[0]
 
 
-def main(place, checkin, checkout, stars=1, offset=0, min_review_score=1, min_price=50, max_price=2000):
+def _app_map_info(pos):
+    url = ("https://maps.googleapis.com/maps/api/staticmap?"
+           "zoom=18&size=600x300&maptype=roadmap&markers=color:blue%7Clabel:S%7C"
+           + pos["latitude"] + "," + pos["longitude"] +
+           "&key=AIzaSyCJjB5rqKv0My4HePYIrgMOjtj24Ei1Uzo")
+    return url
+
+
+def main(place, checkin, checkout, people, stars=1, offset=0, min_review_score=1, min_price=50, max_price=2000):
     pos = get_data_from_auto_complete(place)
     payload = {
         "checkin": checkin,
         "checkout": checkout,
         "longitude": pos["longitude"],
         "latitude": pos["latitude"],
-        "room1": "A,A",
+        "room1": ",".join(["A"]*int(people)),
         "min_price": int(min_price),
         "max_price": int(max_price),
         "output": "hotel_details",
@@ -47,7 +55,8 @@ def main(place, checkin, checkout, stars=1, offset=0, min_review_score=1, min_pr
     price = data["hotels"][0]["price"]
     hotel_name = data["hotels"][0]["hotel_name"]
     review_score = data["hotels"][0]["review_score"]
-    photos = [get_hotels_photo(hotel_id)[0], get_hotels_photo(hotel_id)[1], get_hotels_photo(hotel_id)[2]]
+    photos = [_app_map_info(pos), get_hotels_photo(hotel_id)[0],
+              get_hotels_photo(hotel_id)[1], get_hotels_photo(hotel_id)[2]]
     url = get_hotels_url_by_id(hotel_id)
     return {
         "title": hotel_name,
@@ -57,8 +66,3 @@ def main(place, checkin, checkout, stars=1, offset=0, min_review_score=1, min_pr
         "hotel_url": url,
         "hotel_id": hotel_id
     }
-
-
-if __name__ == '__main__':
-    print(main("Tokyo", "2017-06-02", "2017-06-10", min_price=10))
-    print(main("Tokyo", "2017-06-02", "2017-06-10", min_price=40))
