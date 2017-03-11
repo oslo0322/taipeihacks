@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
 
 def block_message(button_block_name, image_url):
-    return {
-  "messages":[
-      {"text": "以下房型推薦給你～"},
-      {
+    messages = []
+    messages.append({"text": "以下房型推薦給你～"})
+    messages.append(      {
           "attachment": {
               "type": "template",
               "payload": {
@@ -25,6 +24,7 @@ def block_message(button_block_name, image_url):
                   ]
               }
           }
-      }
-  ]
+      })
+    return {
+  "messages":messages
 }
