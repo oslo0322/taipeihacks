@@ -2,10 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="df6aa19a-6b82-404f-b1da-aeca91ec6a61" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/fb_text_message.py" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/requirements.txt" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.py" afterPath="$PROJECT_DIR$/app.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/fb_template.py" afterPath="$PROJECT_DIR$/fb_template.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -27,9 +25,21 @@
         <entry file="file://$PROJECT_DIR$/app.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="315">
-              <caret line="21" column="53" lean-forward="false" selection-start-line="21" selection-start-column="53" selection-end-line="21" selection-end-column="53" />
+              <caret line="21" column="31" lean-forward="false" selection-start-line="21" selection-start-column="31" selection-end-line="21" selection-end-column="31" />
               <folding>
                 <element signature="e#25#36#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="fetch_by_search.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/fetch_by_search.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="661">
+              <caret line="74" column="26" lean-forward="false" selection-start-line="74" selection-start-column="21" selection-end-line="74" selection-end-column="26" />
+              <folding>
+                <element signature="e#0#35#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -38,8 +48,8 @@
       <file leaf-file-name="fb_template.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/fb_template.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="450">
-              <caret line="30" column="0" lean-forward="true" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
+            <state relative-caret-position="30">
+              <caret line="2" column="46" lean-forward="false" selection-start-line="2" selection-start-column="37" selection-end-line="2" selection-end-column="46" />
               <folding />
             </state>
           </provider>
@@ -71,8 +81,8 @@
         <option value="$PROJECT_DIR$/fb_message.py" />
         <option value="$PROJECT_DIR$/fb_image.py" />
         <option value="$PROJECT_DIR$/fb_text_message.py" />
-        <option value="$PROJECT_DIR$/app.py" />
         <option value="$PROJECT_DIR$/fb_template.py" />
+        <option value="$PROJECT_DIR$/app.py" />
       </list>
     </option>
   </component>
@@ -457,16 +467,26 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/fb_template.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="450">
-          <caret line="30" column="0" lean-forward="true" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
+        <state relative-caret-position="30">
+          <caret line="2" column="46" lean-forward="false" selection-start-line="2" selection-start-column="37" selection-end-line="2" selection-end-column="46" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/fetch_by_search.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="661">
+          <caret line="74" column="26" lean-forward="false" selection-start-line="74" selection-start-column="21" selection-end-line="74" selection-end-column="26" />
+          <folding>
+            <element signature="e#0#35#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="315">
-          <caret line="21" column="53" lean-forward="false" selection-start-line="21" selection-start-column="53" selection-end-line="21" selection-end-column="53" />
+          <caret line="21" column="31" lean-forward="false" selection-start-line="21" selection-start-column="31" selection-end-line="21" selection-end-column="31" />
           <folding>
             <element signature="e#25#36#0" expanded="true" />
           </folding>

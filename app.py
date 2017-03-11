@@ -3,6 +3,7 @@
 import json
 import fb_image
 import fb_template as ft
+import fetch_by_search as fbs
 import fb_text_message as ftm
 import requests
 from argparse import ArgumentParser
@@ -18,8 +19,9 @@ app = Flask(__name__)
 def ok():
     user_text = request.args.get('user_text')
     print user_text
+    image_url = fbs.main('Tokyo', "2017-04-01")
     ok = app.response_class(
-        response=json.dumps(ft.block_message('bargain',[1,2])),
+        response=json.dumps(ft.block_message('bargain', image_url[0])),
         status=200,
         mimetype='application/json'
     )
