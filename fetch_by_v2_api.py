@@ -10,6 +10,8 @@ def get_data_from_auto_complete(text, lang="en"):
     data = get_booking_api_response(uri, payload)
     get_cities_id_list = []
     for i in data:
+        if "longitude" not in i or "latitude" not in i:
+            continue
         get_cities_id_list.append({
             "longitude": i["longitude"],
             "latitude": i["latitude"],

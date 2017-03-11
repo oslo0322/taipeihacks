@@ -19,7 +19,7 @@ app = Flask(__name__)
 def ok():
     user_text = request.args.get('user_text')
     print user_text
-    hotel = fbs.main("Tokyo", "2017-06-02", "2017-06-03", stars=3, min_review_score=8, min_price=100)
+    hotel = fbs.main("Taipei", "2017-06-02", "2017-06-03", stars=3, min_review_score=8, min_price=100)
     ok = app.response_class(
         response=json.dumps(ft.block_message('bargain', hotel)),
         status=200,
