@@ -28,9 +28,16 @@ def get_data_from_hotels(cities, limits=3, lang="en"):
     return get_hotels_id
 
 
+def get_hotels_url_by_id(hotel_ids, lang="en"):
+    payload = {'languagecode': lang, "hotel_ids": hotel_ids}
+    uri = "/bookings.getHotels"
+    data = get_booking_api_response(uri, payload)
+    return [i["url"] for i in data]
+
+
 def get_hotels_photo(hotel):
     payload = {"hotel_ids": hotel}
-    uri = "/bookings.getRoomPhotos"
+    uri = "/bookings.getHotelDescriptionPhotos"
     data = get_booking_api_response(uri, payload)
     return [i["url_original"] for i in data]
 
