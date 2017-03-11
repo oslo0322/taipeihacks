@@ -32,5 +32,9 @@ class TaipeiHacksNLPTestCase(unittest.TestCase):
         result = get_nlp_result("give me luxury")
         self.assertEqual(("all", "up"), result)
 
+    def test_nlp_cheaper(self):
+        result = get_nlp_result("cheaper")
+        self.assertEqual(("price", "down"), result)
+
 if __name__ == '__main__':
     unittest.main()
