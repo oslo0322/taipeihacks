@@ -20,7 +20,7 @@ class RequestHelper(object):
 
     def __init__(self, request):
         self.ref = request.args.get('ref')
-        self.start, self.end, self.ref_place = self.ref.split(",")
+        self.start, self.end, self.ref_place, self.people = self.ref.split(",")
         self.price, self.stars, self.review_scores = get_args(request.args)
 
         self.place = request.args.get('place', None) or self.ref_place
@@ -57,7 +57,7 @@ class RequestHelper(object):
     @property
     def hotel_from_messengers(self):
         print(self.place)
-        return fbs.main(self.place, self.start, self.end,
+        return fbs.main(self.place, self.start, self.end, self.people,
                         stars=self.stars,
                         offset=self.offset,
                         min_review_score=self.review_scores,
