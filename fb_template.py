@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, division, print_function, unicode_literals
 
+import random
 from copy import deepcopy
 
 
@@ -43,6 +44,13 @@ def block_message(hotel, set_attrs=None):
 
     reply_titles = ["Cheaper option", "Better review", "More stars", "Luxury hotel!", "reset"]
     replies = []
+
+    random_messages = [
+        "I guess you may like this one, do you?",
+        "This is what I found, how do you think?",
+        "I think this might be the one you need?"
+    ]
+
     for reply in reply_titles:
         replies.append({
             "title": reply,
@@ -58,13 +66,19 @@ def block_message(hotel, set_attrs=None):
                         "template_type": "generic",
                         "elements": elements
                     }
-                }, "quick_replies": replies
-            }
+                },
+            },
+            {
+                "text": random.choice(random_messages),
+                "quick_replies": replies
+            },
+
         ]
     }
 
     if set_attrs:
         set_result = {key: value for key, value in set_attrs.items()}
+        # noinspection PyTypeChecker
         result.update({
             "set_attributes": set_result
         })

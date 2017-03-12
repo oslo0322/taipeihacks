@@ -6,7 +6,7 @@ import os
 import logging
 
 from fetch_by_search import get_hotels_url_by_id, get_hotels_photo
-from fetching_booking_api import get_booking_api_response, get_google_nearby
+from fetching_booking_api import get_booking_api_response
 
 
 def get_data_from_auto_complete(text, lang="en"):
@@ -70,7 +70,7 @@ def main(place, checkin, checkout, people, stars=1, offset=0, min_review_score=1
     return {
         "title": hotel_name,
         "subtitle": "Review: {review_score}, Price: {price}".format(review_score=review_score,
-                                                                          price=price),
+                                                                    price=price),
         "image_urls": photos,
         "hotel_url": url,
         "hotel_id": hotel_id,

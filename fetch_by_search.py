@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-
 from __future__ import absolute_import, division, print_function, unicode_literals
 
 from datetime import datetime, timedelta
@@ -68,6 +67,7 @@ def get_hotels(hotels, arrival_date, departure_date):
 
     return result
 
+
 def main(place, arrival_date_str):
     arrival_date = datetime.strptime(arrival_date_str, "%Y-%m-%d")
     departure_date = arrival_date + timedelta(days=1)
@@ -77,9 +77,4 @@ def main(place, arrival_date_str):
     hotels_data = get_hotels(hotels, arrival_date.date().isoformat(), departure_date.date().isoformat())
 
     photos = get_hotels_photo(hotels_data[0]["hotel_id"])
-    print(hotels_data[0]["hotel_id"])
     return photos
-
-
-if __name__ == '__main__':
-    print(list(main("Tokyo", "2017-04-01")))
