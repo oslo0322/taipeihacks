@@ -1,4 +1,5 @@
 import json
+import os
 import re
 
 import requests
@@ -9,7 +10,9 @@ endpoint = "https://distribution-xml.booking.com/json"
 
 def get_booking_api_response(uri, payload):
     url = endpoint + uri
-    result = requests.get(url, params=payload, auth=HTTPBasicAuth('hacker234', '8hqNW6HtfU'))
+    result = requests.get(url,
+                          params=payload,
+                          auth=HTTPBasicAuth(os.environ["TAIPEI_HACKS_USER"], os.environ["TAIPEI_HACKS_PWD"]))
     return json.loads(result.content)
 
 
@@ -47,7 +50,7 @@ def get_nlp_result(query_string):
 
     endpoint = "https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/d2d3350e-e867-4a73-9a51-81a0bd96e6a3"
     payload = {
-        "subscription-key": "0c837e0f69604166b9c07627bfc7011e",
+        "subscription-key": os.environ["LUIS_TOKEN"],
         "verbose": "true",
         "q": query_string
     }

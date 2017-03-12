@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, division, print_function, unicode_literals
 
+import os
+
 from fetch_by_search import get_hotels_url_by_id, get_hotels_photo
 from fetching_booking_api import get_booking_api_response
 
@@ -24,7 +26,7 @@ def _app_map_info(pos):
     url = ("https://maps.googleapis.com/maps/api/staticmap?"
            "zoom=18&size=600x300&maptype=roadmap&markers=color:blue%7Clabel:S%7C"
            + pos["latitude"] + "," + pos["longitude"] +
-           "&key=AIzaSyCJjB5rqKv0My4HePYIrgMOjtj24Ei1Uzo")
+           "&key="+os.environ["GOOGLE_API_KEY"])
     return url
 
 
