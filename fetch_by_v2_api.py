@@ -69,7 +69,7 @@ def main(place, checkin, checkout, people, stars=1, offset=0, min_review_score=1
 
     return {
         "title": hotel_name,
-        "subtitle": "review_score: {review_score}, price: {price}".format(review_score=review_score,
+        "subtitle": "Review: {review_score}, Price: {price}".format(review_score=review_score,
                                                                           price=price),
         "image_urls": photos,
         "hotel_url": url,

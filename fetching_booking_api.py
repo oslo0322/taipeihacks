@@ -59,7 +59,7 @@ def get_nlp_result(query_string):
     }
     result = requests.get(endpoint, params=payload)
     data = json.loads(result.content)
-    if data["topScoringIntent"]["score"] > 0.5:
+    if data["topScoringIntent"]["score"] > 0.2:
         intent = data["topScoringIntent"]["intent"]
         return _intent_parser(intent)
 
