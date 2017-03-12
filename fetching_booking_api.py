@@ -63,7 +63,6 @@ def get_nlp_result(query_string):
         data["topScoringIntent"]["score"]
     except Exception:
         print("GG", data["topScoringIntent"]["score"])
-
     if data["topScoringIntent"]["score"] > 0.2:
         intent = data["topScoringIntent"]["intent"]
         return _intent_parser(intent)
