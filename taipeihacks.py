@@ -7,9 +7,11 @@ from argparse import ArgumentParser
 from flask import Flask
 from flask import json
 from flask import request
+from dotenv import load_dotenv, find_dotenv
 
 from libs import RequestHelper
 
+load_dotenv(find_dotenv())
 app = Flask(__name__)
 
 
