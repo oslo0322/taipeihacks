@@ -58,7 +58,6 @@ def get_nlp_result(query_string):
         "q": query_string
     }
     result = requests.get(endpoint, params=payload)
-    print(result.content)
     data = json.loads(result.content)
     if data["topScoringIntent"]["score"] > 0.5:
         intent = data["topScoringIntent"]["intent"]
