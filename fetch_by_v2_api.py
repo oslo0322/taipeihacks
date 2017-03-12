@@ -3,8 +3,10 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 
 import os
 
+import logging
+
 from fetch_by_search import get_hotels_url_by_id, get_hotels_photo
-from fetching_booking_api import get_booking_api_response
+from fetching_booking_api import get_booking_api_response, get_google_nearby
 
 
 def get_data_from_auto_complete(text, lang="en"):
@@ -46,13 +48,17 @@ def main(place, checkin, checkout, people, stars=1, offset=0, min_review_score=1
         "min_review_score": min_review_score,
         "radius": 50,
         "order_by": "price",
-        "currency_code": "TWD",
+        "currency_code": "USD",
         "offset": offset
     }
     uri = "/getHotelAvailabilityV2"
     data = get_booking_api_response(uri, payload)
     if not data:
         return None
+    try:
+        logging.info(data["hotels"][0])
+    except Exception:
+        logging.error(data)
     hotel_id = data["hotels"][0]["hotel_id"]
     price = data["hotels"][0]["price"]
     hotel_name = data["hotels"][0]["hotel_name"]
@@ -60,11 +66,14 @@ def main(place, checkin, checkout, people, stars=1, offset=0, min_review_score=1
     photos = [_app_map_info(pos), get_hotels_photo(hotel_id)[0],
               get_hotels_photo(hotel_id)[1], get_hotels_photo(hotel_id)[2]]
     url = get_hotels_url_by_id(hotel_id)
+
+    extra_msg = get_google_nearby(",".join([pos["latitude"], pos["longitude"]]))
     return {
         "title": hotel_name,
         "subtitle": "review_score: {review_score}, price: {price}".format(review_score=review_score,
                                                                           price=price),
         "image_urls": photos,
         "hotel_url": url,
-        "hotel_id": hotel_id
+        "hotel_id": hotel_id,
+        "extra_msg": extra_msg[:5],
     }

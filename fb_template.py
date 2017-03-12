@@ -13,7 +13,7 @@ def empty_message():
     return result
 
 
-def block_message(hotel, set_attrs=None):
+def block_message(hotel, set_attrs=None, extra_msg=None):
     element_base = {
         "title": hotel['title'],
         "image_url": "",
@@ -51,5 +51,10 @@ def block_message(hotel, set_attrs=None):
         result.update({
             "set_attributes": set_result
         })
+
+    if extra_msg:
+        text = "\n".join(extra_msg)
+        msgs = {"text": text}
+        result["messages"].append(msgs)
 
     return result

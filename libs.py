@@ -58,9 +58,9 @@ class RequestHelper(object):
             if i == "price":
                 if _status == "up":
                     if _types == "all":
-                        self.price *= random.uniform(2.1, 5.0)
+                        self.price *= random.uniform(1.5, 2.5)
                     else:
-                        self.price *= random.uniform(1.1, 3.0)
+                        self.price *= random.uniform(1.1, 1.8)
                 else:
                     self.price *= random.uniform(0.6, 0.99)
 
@@ -94,7 +94,6 @@ class RequestHelper(object):
 
     @property
     def hotel_from_messengers(self):
-        print(self.place)
         return fbs.main(self.place, self.start, self.end, self.people,
                         stars=self.stars,
                         offset=self.offset,
@@ -108,7 +107,9 @@ class RequestHelper(object):
     def get_message(self):
         try:
             hotel = self.hotel_from_messengers
-            return ft.block_message(hotel, self.get_attrs)
+            print(hotel["extra_msg"])
+            return ft.block_message(hotel, self.get_attrs,
+                                    extra_msg=hotel["extra_msg"])
         except Exception as e:
             logging.error(e, exc_info=True)
             return self.error_message()
