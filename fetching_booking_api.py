@@ -28,12 +28,15 @@ def get_nlp_result(query_string):
                 if _v in _intent:
                     return key
 
-    def _in_up_keywords(string):
-        up_keywords = ["luxury", "affluence", "comfort", "enjoy", "extravagance", "leisure", "rich", "opulence"]
-        for i in up_keywords:
+    def _in_keywords(string, keyword):
+        for i in keyword:
             if re.search(i, string.lower()):
                 return True
         return False
+
+    def _in_up_keywords(string):
+        up_keywords = ["luxury", "affluence", "comfort", "enjoy", "extravagance", "leisure", "rich", "opulence"]
+        return _in_keywords(string, up_keywords)
 
     def _intent_parser(intent):
         split_intent = intent.split("_")
@@ -75,8 +78,8 @@ def get_google_nearby(location):
     return_data = []
     for nearby in data["results"]:
         try:
-            msg = "name:%s  rating: %s" % (nearby["name"], nearby["rating"])
+            msg = "[rating: %.1f] %s" % (nearby["rating"], nearby["name"])
             return_data.append(msg)
         except KeyError:
             pass
-    return return_data
+    return sorted(return_data)[::-1]
