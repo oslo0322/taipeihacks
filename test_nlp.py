@@ -10,7 +10,7 @@ class TaipeiHacksNLPTestCase(unittest.TestCase):
 
     def test_nlp_up(self):
         result = get_nlp_result("up")
-        self.assertIsNone(result)
+        self.assertEqual(("star", "up"), result)
 
     def test_nlp_down(self):
         result = get_nlp_result("down")
