@@ -41,6 +41,14 @@ def block_message(hotel, set_attrs=None):
         copied_element["image_url"] = i
         elements.append(copied_element)
 
+    reply_titles = ["Cheaper option", "Better review", "More stars", "Luxury hotel!", "reset"]
+    replies = []
+    for reply in reply_titles:
+        replies.append({
+            "title": reply,
+            "block_names": ["Default answer"]
+        })
+
     result = {
         "messages": [
             {
@@ -50,7 +58,7 @@ def block_message(hotel, set_attrs=None):
                         "template_type": "generic",
                         "elements": elements
                     }
-                }
+                }, "quick_replies": replies
             }
         ]
     }
