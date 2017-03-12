@@ -4,17 +4,19 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 import random
 
 import logging
+import re
 
 import fetch_by_v2_api as fbs
 import fb_template as ft
-from fetching_booking_api import get_nlp_result
+from fetching_booking_api import get_nlp_result, get_google_nearby
 
 
 def get_args(request):
     price = request.get('price')
     stars = request.get('stars')
     review_scores = request.get('review_scores')
-    return int(float(price)), int(float(stars)), int(float(review_scores))
+    pos = request.get('pos')
+    return int(float(price)), int(float(stars)), int(float(review_scores)), pos
 
 
 class RequestHelper(object):
@@ -22,13 +24,13 @@ class RequestHelper(object):
     def __init__(self, request):
         self.ref = request.args.get('ref')
         self.start, self.end, self.ref_place, self.people = self.ref.split(",")
-        self.price, self.stars, self.review_scores = get_args(request.args)
+        self.price, self.stars, self.review_scores, self.pos = get_args(request.args)
 
         self.place = request.args.get('place', None) or self.ref_place
 
         self.user_text = request.args.get('user_text', None)
         self.offset = 0
-
+        self.recommend = False
         self._setter()
 
     def _modifier(self, name, limit, status):
@@ -58,9 +60,9 @@ class RequestHelper(object):
             if i == "price":
                 if _status == "up":
                     if _types == "all":
-                        self.price *= random.uniform(2.1, 5.0)
+                        self.price *= random.uniform(1.5, 2.5)
                     else:
-                        self.price *= random.uniform(1.1, 3.0)
+                        self.price *= random.uniform(1.1, 1.8)
                 else:
                     self.price *= random.uniform(0.6, 0.99)
 
@@ -73,6 +75,12 @@ class RequestHelper(object):
     def _setter(self):
         if not self.user_text:
             return
+
+        suggest_keywords = ["suggest", "recommend", "around"]
+        for s in suggest_keywords:
+            if re.search(s, self.user_text):
+                self.recommend = True
+                return
 
         nlp_result = get_nlp_result(self.user_text)
         if nlp_result:
@@ -94,7 +102,6 @@ class RequestHelper(object):
 
     @property
     def hotel_from_messengers(self):
-        print(self.place)
         return fbs.main(self.place, self.start, self.end, self.people,
                         stars=self.stars,
                         offset=self.offset,
@@ -105,13 +112,24 @@ class RequestHelper(object):
     def error_message(cls):
         return ft.empty_message()
 
-    def get_message(self):
+    def _get_hotel_message(self):
         try:
             hotel = self.hotel_from_messengers
+            self.pos = hotel.pop("pos")
             return ft.block_message(hotel, self.get_attrs)
         except Exception as e:
             logging.error(e, exc_info=True)
             return self.error_message()
+
+    def _get_recommend_message(self):
+        nearby = get_google_nearby(self.pos)
+        text = "\n".join(nearby)
+        return ft.recommend_message(text)
+
+    def get_message(self):
+        if self.recommend:
+            return self._get_recommend_message()
+        return self._get_hotel_message()
 
     @property
     def get_attrs(self):
@@ -119,5 +137,6 @@ class RequestHelper(object):
             "price": int(self.price),
             "stars": int(self.stars),
             "review_scores": int(self.review_scores),
-            "place": self.place
+            "place": self.place,
+            "pos": self.pos
         }

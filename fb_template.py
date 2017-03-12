@@ -13,6 +13,15 @@ def empty_message():
     return result
 
 
+def recommend_message(text):
+    result = {
+        "messages": [
+            {"text": text},
+        ]
+    }
+    return result
+
+
 def block_message(hotel, set_attrs=None):
     element_base = {
         "title": hotel['title'],

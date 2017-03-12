@@ -28,12 +28,15 @@ def get_nlp_result(query_string):
                 if _v in _intent:
                     return key
 
-    def _in_up_keywords(string):
-        up_keywords = ["luxury", "affluence", "comfort", "enjoy", "extravagance", "leisure", "rich", "opulence"]
-        for i in up_keywords:
-            if re.search(i, string):
+    def _in_keywords(string, keyword):
+        for i in keyword:
+            if re.search(i, string.lower()):
                 return True
         return False
+
+    def _in_up_keywords(string):
+        up_keywords = ["luxury", "affluence", "comfort", "enjoy", "extravagance", "leisure", "rich", "opulence"]
+        return _in_keywords(string, up_keywords)
 
     def _intent_parser(intent):
         split_intent = intent.split("_")
@@ -59,3 +62,24 @@ def get_nlp_result(query_string):
     if data["topScoringIntent"]["score"] > 0.5:
         intent = data["topScoringIntent"]["intent"]
         return _intent_parser(intent)
+
+
+def get_google_nearby(location):
+    url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json"
+    payload = {
+        "location": location,
+        "rankby": "distance",
+        "types": "food",
+        "key": os.environ["GOOGLE_PLACE_KEY"]
+    }
+    result = requests.get(url, params=payload)
+    data = json.loads(result.content)
+
+    return_data = []
+    for nearby in data["results"]:
+        try:
+            msg = "[rating: %.1f] %s" % (nearby["rating"], nearby["name"])
+            return_data.append(msg)
+        except KeyError:
+            pass
+    return sorted(return_data)[::-1]
