@@ -63,7 +63,7 @@ def main(place, checkin, checkout, people, stars=1, offset=0, min_review_score=1
     price = data["hotels"][0]["price"]
     hotel_name = data["hotels"][0]["hotel_name"]
     review_score = data["hotels"][0]["review_score"]
-    photos = [_app_map_info(pos), get_hotels_photo(hotel_id)[0],
+    photos = [get_hotels_photo(hotel_id)[0], _app_map_info(pos),
               get_hotels_photo(hotel_id)[1], get_hotels_photo(hotel_id)[2]]
     url = get_hotels_url_by_id(hotel_id)
 
